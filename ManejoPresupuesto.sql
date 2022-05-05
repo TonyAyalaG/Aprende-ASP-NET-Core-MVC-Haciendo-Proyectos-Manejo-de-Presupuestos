@@ -1,7 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/5/2022 2:31:40 PM ******/
-
+/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/5/2022 3:48:21 PM ******/
 ALTER DATABASE [ManejoPresupuesto] SET COMPATIBILITY_LEVEL = 150
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
@@ -75,7 +74,7 @@ ALTER DATABASE [ManejoPresupuesto] SET QUERY_STORE = OFF
 GO
 USE [ManejoPresupuesto]
 GO
-/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/5/2022 2:31:41 PM ******/
+/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/5/2022 3:48:21 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -103,13 +102,16 @@ INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [T
 GO
 INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoTransaccionId], [Nota]) VALUES (5, N'Felipe', CAST(N'2021-10-03T00:00:00.000' AS DateTime), CAST(1500.00 AS Decimal(18, 2)), 1, NULL)
 GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoTransaccionId], [Nota]) VALUES (6, N'Guillermo', CAST(N'2021-10-07T00:00:00.000' AS DateTime), CAST(501.00 AS Decimal(18, 2)), 1, NULL)
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoTransaccionId], [Nota]) VALUES (6, N'Guillermo', CAST(N'2021-11-07T00:00:00.000' AS DateTime), CAST(501.00 AS Decimal(18, 2)), 1, NULL)
 GO
 INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoTransaccionId], [Nota]) VALUES (7, N'Federico', CAST(N'2021-11-01T00:00:00.000' AS DateTime), CAST(499.99 AS Decimal(18, 2)), 1, N'Nota de ejemplo')
 GO
 INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoTransaccionId], [Nota]) VALUES (8, N'Penelope', CAST(N'2021-11-02T00:00:00.000' AS DateTime), CAST(2101.95 AS Decimal(18, 2)), 1, NULL)
 GO
 INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoTransaccionId], [Nota]) VALUES (11, N'rafael', CAST(N'2021-01-01T00:00:00.000' AS DateTime), CAST(789.00 AS Decimal(18, 2)), 2, NULL)
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoTransaccionId], [Nota]) VALUES (12, N'penelope', CAST(N'2020-05-08T00:00:00.000' AS DateTime), CAST(485.57 AS Decimal(18, 2)), 1, NULL)
+GO
 SET IDENTITY_INSERT [dbo].[Transacciones] OFF
 GO
 USE [master]
