@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/6/2022 1:44:32 PM ******/
+/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/6/2022 2:21:40 PM ******/
 ALTER DATABASE [ManejoPresupuesto] SET COMPATIBILITY_LEVEL = 150
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
@@ -74,7 +74,7 @@ ALTER DATABASE [ManejoPresupuesto] SET QUERY_STORE = OFF
 GO
 USE [ManejoPresupuesto]
 GO
-/****** Object:  Table [dbo].[TiposOperaciones]    Script Date: 5/6/2022 1:44:32 PM ******/
+/****** Object:  Table [dbo].[TiposOperaciones]    Script Date: 5/6/2022 2:21:40 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -88,7 +88,7 @@ CREATE TABLE [dbo].[TiposOperaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/6/2022 1:44:32 PM ******/
+/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/6/2022 2:21:40 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -136,6 +136,10 @@ INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [T
 GO
 INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (14, N'Felipe', CAST(N'2021-07-08T00:00:00.000' AS DateTime), CAST(123.00 AS Decimal(18, 2)), 2, NULL)
 GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (15, N'felipe', CAST(N'2021-11-07T00:00:00.000' AS DateTime), CAST(799.99 AS Decimal(18, 2)), 2, N'Nota ejemplo')
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (16, N'felipe', CAST(N'2021-11-07T00:00:00.000' AS DateTime), CAST(1300.00 AS Decimal(18, 2)), 1, NULL)
+GO
 SET IDENTITY_INSERT [dbo].[Transacciones] OFF
 GO
 ALTER TABLE [dbo].[Transacciones]  WITH CHECK ADD  CONSTRAINT [FK_Transacciones_TiposOperaciones] FOREIGN KEY([TipoOperacionId])
@@ -143,7 +147,7 @@ REFERENCES [dbo].[TiposOperaciones] ([id])
 GO
 ALTER TABLE [dbo].[Transacciones] CHECK CONSTRAINT [FK_Transacciones_TiposOperaciones]
 GO
-/****** Object:  StoredProcedure [dbo].[Transacciones_SelectConTipoOperacion]    Script Date: 5/6/2022 1:44:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[Transacciones_SelectConTipoOperacion]    Script Date: 5/6/2022 2:21:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -154,7 +158,7 @@ GO
 -- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[Transacciones_SelectConTipoOperacion]
-	
+	@fecha date
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -165,7 +169,34 @@ BEGIN
 	from Transacciones
 	Inner join TiposOperaciones
 	on Transacciones.TipoOperacionId=TiposOperaciones.id
+	where FechaTransaccion = @fecha
 	order by UsuarioId desc
+	
+END
+GO
+/****** Object:  StoredProcedure [dbo].[TransaccionesInsertar]    Script Date: 5/6/2022 2:21:41 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[TransaccionesInsertar]
+	@UsuraioId nvarchar(450),
+	@fechaTransaccion date,
+	@Monto decimal(18,2),
+	@TipoOperacionId int,
+	@Nota nvarchar(1000) = null
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	insert into Transacciones(UsuarioId,FechaTransaccion,Monto,TipoOperacionId,Nota)
+	values (@UsuraioId,@fechaTransaccion,@Monto,@TipoOperacionId,@Nota)
 END
 GO
 USE [master]
