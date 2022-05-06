@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/6/2022 2:21:40 PM ******/
+/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/6/2022 3:01:57 PM ******/
 ALTER DATABASE [ManejoPresupuesto] SET COMPATIBILITY_LEVEL = 150
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
@@ -74,7 +74,40 @@ ALTER DATABASE [ManejoPresupuesto] SET QUERY_STORE = OFF
 GO
 USE [ManejoPresupuesto]
 GO
-/****** Object:  Table [dbo].[TiposOperaciones]    Script Date: 5/6/2022 2:21:40 PM ******/
+/****** Object:  Table [dbo].[Cuentas]    Script Date: 5/6/2022 3:01:57 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Cuentas](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [nvarchar](50) NOT NULL,
+	[TipoCuentaId] [int] NOT NULL,
+	[Balance] [decimal](18, 2) NULL,
+	[Descripcion] [nvarchar](1000) NULL,
+ CONSTRAINT [PK_Cuentas] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TiposCuentas]    Script Date: 5/6/2022 3:01:57 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TiposCuentas](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [nvarchar](50) NOT NULL,
+	[Usuario] [int] NOT NULL,
+	[Orden] [int] NOT NULL,
+ CONSTRAINT [PK_TiposCuentas] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TiposOperaciones]    Script Date: 5/6/2022 3:01:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -88,18 +121,19 @@ CREATE TABLE [dbo].[TiposOperaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/6/2022 2:21:40 PM ******/
+/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/6/2022 3:01:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Transacciones](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[UsuarioId] [nvarchar](450) NOT NULL,
+	[UsuarioId] [int] NOT NULL,
 	[FechaTransaccion] [datetime] NOT NULL,
 	[Monto] [decimal](18, 2) NOT NULL,
 	[TipoOperacionId] [int] NOT NULL,
 	[Nota] [nvarchar](1000) NULL,
+	[CuentaId] [int] NOT NULL,
  CONSTRAINT [PK_Transacciones] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -114,40 +148,22 @@ INSERT [dbo].[TiposOperaciones] ([id], [Descripcion]) VALUES (2, N'Gastos')
 GO
 SET IDENTITY_INSERT [dbo].[TiposOperaciones] OFF
 GO
-SET IDENTITY_INSERT [dbo].[Transacciones] ON 
+ALTER TABLE [dbo].[Cuentas]  WITH CHECK ADD  CONSTRAINT [FK_Cuentas_TiposCuentas] FOREIGN KEY([TipoCuentaId])
+REFERENCES [dbo].[TiposCuentas] ([Id])
 GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (1, N'Felipe', CAST(N'2021-11-09T00:00:00.000' AS DateTime), CAST(4780.00 AS Decimal(18, 2)), 1, N'Nota actualizada 2')
+ALTER TABLE [dbo].[Cuentas] CHECK CONSTRAINT [FK_Cuentas_TiposCuentas]
 GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (2, N'Felipe', CAST(N'2021-11-08T00:00:00.000' AS DateTime), CAST(350.00 AS Decimal(18, 2)), 2, NULL)
+ALTER TABLE [dbo].[Transacciones]  WITH CHECK ADD  CONSTRAINT [FK_Transacciones_Cuentas] FOREIGN KEY([CuentaId])
+REFERENCES [dbo].[Cuentas] ([Id])
 GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (4, N'Felipe', CAST(N'2021-10-03T00:00:00.000' AS DateTime), CAST(1500.00 AS Decimal(18, 2)), 1, N'Esto vino de un QUERY')
-GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (5, N'Felipe', CAST(N'2021-10-03T00:00:00.000' AS DateTime), CAST(1500.00 AS Decimal(18, 2)), 1, NULL)
-GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (6, N'Guillermo', CAST(N'2021-11-07T00:00:00.000' AS DateTime), CAST(501.00 AS Decimal(18, 2)), 2, NULL)
-GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (7, N'Federico', CAST(N'2021-11-01T00:00:00.000' AS DateTime), CAST(499.99 AS Decimal(18, 2)), 1, N'Nota de ejemplo')
-GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (8, N'Penelope', CAST(N'2021-11-02T00:00:00.000' AS DateTime), CAST(2101.95 AS Decimal(18, 2)), 1, NULL)
-GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (11, N'rafael', CAST(N'2021-01-01T00:00:00.000' AS DateTime), CAST(789.00 AS Decimal(18, 2)), 2, NULL)
-GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (12, N'penelope', CAST(N'2020-05-08T00:00:00.000' AS DateTime), CAST(485.57 AS Decimal(18, 2)), 1, NULL)
-GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (14, N'Felipe', CAST(N'2021-07-08T00:00:00.000' AS DateTime), CAST(123.00 AS Decimal(18, 2)), 2, NULL)
-GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (15, N'felipe', CAST(N'2021-11-07T00:00:00.000' AS DateTime), CAST(799.99 AS Decimal(18, 2)), 2, N'Nota ejemplo')
-GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [TipoOperacionId], [Nota]) VALUES (16, N'felipe', CAST(N'2021-11-07T00:00:00.000' AS DateTime), CAST(1300.00 AS Decimal(18, 2)), 1, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[Transacciones] OFF
+ALTER TABLE [dbo].[Transacciones] CHECK CONSTRAINT [FK_Transacciones_Cuentas]
 GO
 ALTER TABLE [dbo].[Transacciones]  WITH CHECK ADD  CONSTRAINT [FK_Transacciones_TiposOperaciones] FOREIGN KEY([TipoOperacionId])
 REFERENCES [dbo].[TiposOperaciones] ([id])
 GO
 ALTER TABLE [dbo].[Transacciones] CHECK CONSTRAINT [FK_Transacciones_TiposOperaciones]
 GO
-/****** Object:  StoredProcedure [dbo].[Transacciones_SelectConTipoOperacion]    Script Date: 5/6/2022 2:21:41 PM ******/
+/****** Object:  StoredProcedure [dbo].[Transacciones_SelectConTipoOperacion]    Script Date: 5/6/2022 3:01:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -174,7 +190,7 @@ BEGIN
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TransaccionesInsertar]    Script Date: 5/6/2022 2:21:41 PM ******/
+/****** Object:  StoredProcedure [dbo].[TransaccionesInsertar]    Script Date: 5/6/2022 3:01:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
