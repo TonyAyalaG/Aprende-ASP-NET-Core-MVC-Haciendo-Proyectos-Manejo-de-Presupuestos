@@ -1,6 +1,7 @@
 USE [master]
 GO
-/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/6/2022 4:01:35 PM ******/
+/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/6/2022 4:11:41 PM ******/
+
 ALTER DATABASE [ManejoPresupuesto] SET COMPATIBILITY_LEVEL = 150
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
@@ -74,7 +75,23 @@ ALTER DATABASE [ManejoPresupuesto] SET QUERY_STORE = OFF
 GO
 USE [ManejoPresupuesto]
 GO
-/****** Object:  Table [dbo].[Cuentas]    Script Date: 5/6/2022 4:01:35 PM ******/
+/****** Object:  Table [dbo].[Categorias]    Script Date: 5/6/2022 4:11:41 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Categorias](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [nvarchar](50) NOT NULL,
+	[TipoOperacionId] [int] NOT NULL,
+	[UsuarioId] [int] NOT NULL,
+ CONSTRAINT [PK_Categorias] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Cuentas]    Script Date: 5/6/2022 4:11:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -91,7 +108,7 @@ CREATE TABLE [dbo].[Cuentas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TiposCuentas]    Script Date: 5/6/2022 4:01:35 PM ******/
+/****** Object:  Table [dbo].[TiposCuentas]    Script Date: 5/6/2022 4:11:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -107,7 +124,7 @@ CREATE TABLE [dbo].[TiposCuentas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TiposOperaciones]    Script Date: 5/6/2022 4:01:35 PM ******/
+/****** Object:  Table [dbo].[TiposOperaciones]    Script Date: 5/6/2022 4:11:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -121,7 +138,7 @@ CREATE TABLE [dbo].[TiposOperaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/6/2022 4:01:35 PM ******/
+/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/6/2022 4:11:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -134,13 +151,14 @@ CREATE TABLE [dbo].[Transacciones](
 	[TipoOperacionId] [int] NOT NULL,
 	[Nota] [nvarchar](1000) NULL,
 	[CuentaId] [int] NOT NULL,
+	[CategoriaId] [int] NOT NULL,
  CONSTRAINT [PK_Transacciones] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Usuarios]    Script Date: 5/6/2022 4:01:35 PM ******/
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 5/6/2022 4:11:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -164,6 +182,16 @@ INSERT [dbo].[TiposOperaciones] ([id], [Descripcion]) VALUES (2, N'Gastos')
 GO
 SET IDENTITY_INSERT [dbo].[TiposOperaciones] OFF
 GO
+ALTER TABLE [dbo].[Categorias]  WITH CHECK ADD  CONSTRAINT [FK_Categorias_TiposOperaciones] FOREIGN KEY([TipoOperacionId])
+REFERENCES [dbo].[TiposOperaciones] ([id])
+GO
+ALTER TABLE [dbo].[Categorias] CHECK CONSTRAINT [FK_Categorias_TiposOperaciones]
+GO
+ALTER TABLE [dbo].[Categorias]  WITH CHECK ADD  CONSTRAINT [FK_Categorias_Usuarios] FOREIGN KEY([UsuarioId])
+REFERENCES [dbo].[Usuarios] ([Id])
+GO
+ALTER TABLE [dbo].[Categorias] CHECK CONSTRAINT [FK_Categorias_Usuarios]
+GO
 ALTER TABLE [dbo].[Cuentas]  WITH CHECK ADD  CONSTRAINT [FK_Cuentas_TiposCuentas] FOREIGN KEY([TipoCuentaId])
 REFERENCES [dbo].[TiposCuentas] ([Id])
 GO
@@ -173,6 +201,11 @@ ALTER TABLE [dbo].[TiposCuentas]  WITH CHECK ADD  CONSTRAINT [FK_TiposCuentas_Us
 REFERENCES [dbo].[Usuarios] ([Id])
 GO
 ALTER TABLE [dbo].[TiposCuentas] CHECK CONSTRAINT [FK_TiposCuentas_Usuarios]
+GO
+ALTER TABLE [dbo].[Transacciones]  WITH CHECK ADD  CONSTRAINT [FK_Transacciones_Categorias] FOREIGN KEY([CategoriaId])
+REFERENCES [dbo].[Categorias] ([id])
+GO
+ALTER TABLE [dbo].[Transacciones] CHECK CONSTRAINT [FK_Transacciones_Categorias]
 GO
 ALTER TABLE [dbo].[Transacciones]  WITH CHECK ADD  CONSTRAINT [FK_Transacciones_Cuentas] FOREIGN KEY([CuentaId])
 REFERENCES [dbo].[Cuentas] ([Id])
@@ -189,7 +222,7 @@ REFERENCES [dbo].[Usuarios] ([Id])
 GO
 ALTER TABLE [dbo].[Transacciones] CHECK CONSTRAINT [FK_Transacciones_Usuarios]
 GO
-/****** Object:  StoredProcedure [dbo].[Transacciones_SelectConTipoOperacion]    Script Date: 5/6/2022 4:01:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[Transacciones_SelectConTipoOperacion]    Script Date: 5/6/2022 4:11:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -216,7 +249,7 @@ BEGIN
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[TransaccionesInsertar]    Script Date: 5/6/2022 4:01:35 PM ******/
+/****** Object:  StoredProcedure [dbo].[TransaccionesInsertar]    Script Date: 5/6/2022 4:11:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
