@@ -25,6 +25,8 @@ _UpgradeReport_Files/
 bin/
 obj/
 TestResults/
+v17/
+DesignTimeBuild/
 ###################
 # Web publish log #
 ###################
