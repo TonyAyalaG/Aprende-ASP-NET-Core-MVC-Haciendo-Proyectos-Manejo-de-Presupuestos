@@ -6,6 +6,7 @@ namespace ManejoPresupuesto.Servicios
 {
     public interface IRepositorioCuentas
     {
+        Task<IEnumerable<Cuenta>> Buscar(int usuarioId);
         Task Crear(Cuenta cuenta);
     }
     public class RepositorioCuentas: IRepositorioCuentas
@@ -25,6 +26,16 @@ namespace ManejoPresupuesto.Servicios
                                           Values (@Nombre, @TipoCuentaId, @Descripcion, @Balance);
                                         Select SCOPE_IDENTITY();", cuenta);
             cuenta.Id = id;
+        }
+
+        public async Task<IEnumerable<Cuenta>> Buscar(int usuarioId)
+        {
+            using var connection = new SqlConnection(connectionString);
+            return await connection.QueryAsync<Cuenta>(@"
+                                                        Select Cuentas.Id, Cuentas.Nombre, Balance, tc.Nombre as TipoCuenta
+                                                        from Cuentas
+                                                        Inner Join TiposCuentas tc On tc.Id = Cuentas.TipoCuentaId
+                                                        Where tc.UsuarioId = @UsuarioId Order by tc.Orden", new { usuarioId });
         }
     }
 }
