@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ManejoPresupuesto.Controllers
 {
-    public class CuentasController: Controller
+    public class CuentasController : Controller
     {
         private readonly IRepositorioTiposCuentas repositorioTiposCuentas;
         private readonly IServicioUsuarios servicioUsuarios;
@@ -51,7 +51,7 @@ namespace ManejoPresupuesto.Controllers
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
             var tipoCuenta = await repositorioTiposCuentas.ObtenerPorId(cuenta.TipoCuentaId, usuarioId);
 
-            if(tipoCuenta is null)
+            if (tipoCuenta is null)
             {
                 return RedirectToAction("NoEncontrado", "Home");
             }
@@ -67,7 +67,7 @@ namespace ManejoPresupuesto.Controllers
         }
         public async Task<IActionResult> Editar(int Id)
         {
-            var usuarioId= servicioUsuarios.ObtenerUsuarioId();
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
             var cuenta = await repositorioCuentas.ObtenerPorId(Id, usuarioId);
 
             if (cuenta is null)
@@ -115,6 +115,33 @@ namespace ManejoPresupuesto.Controllers
         {
             var tiposCuentas = await repositorioTiposCuentas.Obtener(usuarioId);
             return tiposCuentas.Select(x => new SelectListItem(x.Nombre, x.Id.ToString()));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Borrar(int id)
+        {
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            var cuenta = await repositorioCuentas.ObtenerPorId(id, usuarioId);
+
+            if (cuenta is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+            return View(cuenta);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BorrarCuenta(int id)
+        {
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            var cuenta = await repositorioCuentas.ObtenerPorId(id, usuarioId);
+
+            if (cuenta is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+            await repositorioCuentas.Borrar(id);
+            return RedirectToAction("Index");
         }
     }
 }
