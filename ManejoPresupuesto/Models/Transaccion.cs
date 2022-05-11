@@ -7,7 +7,9 @@ namespace ManejoPresupuesto.Models
         
         public int Id { get; set; }
         public int UsuarioId { get; set; }
-        public DateTime FechaTransaccion { get; set; } = DateTime.Today;
+        [Display(Name = "Fecha Transaccion")]
+        [DataType(DataType.Date)]
+        public DateTime FechaTransaccion { get; set; } = DateTime.Today;// DateTime.Parse(DateTime.Now.ToString("g")); //DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
         public decimal Monto { get; set; }
         [Range(1, maximum: int.MaxValue, ErrorMessage ="Debe seleccionar una categoria")]
         public int CategoriaId { get; set; }
