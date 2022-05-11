@@ -33,5 +33,13 @@ namespace ManejoPresupuesto.Controllers
 
             
         }
+
+        public async Task<IActionResult> Index()
+        {
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            var categorias = await repositorioCategorias.Obtener(usuarioId);
+            return View(categorias);
+        }
+
     }
 }
