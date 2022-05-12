@@ -7,6 +7,7 @@ namespace ManejoPresupuesto.Servicios
     public interface IRepositorioTransacciones
     {
         Task Actualizar(Transaccion transaccion, decimal montoAnterior, int cuentaAnterior);
+        Task Borrar(int id);
         Task Crear(Transaccion transaccion);
         Task<Transaccion> ObtenerPorId(int id, int usuarioId);
     }
@@ -60,6 +61,12 @@ namespace ManejoPresupuesto.Servicios
                                 From Transacciones
                                 Inner Join Categorias cat on cat.id = Transacciones.CategoriaId
                                 Where Transacciones.Id = @Id And Transacciones.UsuarioId = @UsuarioId", new {id, usuarioId});
+        }
+
+        public async Task Borrar(int id)
+        {
+            using var connection = new SqlConnection(connectionString);
+            await connection.ExecuteAsync("Transacciones_Borrar", new {id}, commandType: System.Data.CommandType.StoredProcedure);
         }
 
     }

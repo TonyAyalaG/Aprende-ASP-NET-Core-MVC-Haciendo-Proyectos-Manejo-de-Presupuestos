@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/12/2022 1:55:17 PM ******/
+/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/12/2022 2:31:01 PM ******/
 
 ALTER DATABASE [ManejoPresupuesto] SET COMPATIBILITY_LEVEL = 150
 GO
@@ -75,7 +75,7 @@ ALTER DATABASE [ManejoPresupuesto] SET QUERY_STORE = OFF
 GO
 USE [ManejoPresupuesto]
 GO
-/****** Object:  Table [dbo].[Categorias]    Script Date: 5/12/2022 1:55:17 PM ******/
+/****** Object:  Table [dbo].[Categorias]    Script Date: 5/12/2022 2:31:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -91,7 +91,7 @@ CREATE TABLE [dbo].[Categorias](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cuentas]    Script Date: 5/12/2022 1:55:17 PM ******/
+/****** Object:  Table [dbo].[Cuentas]    Script Date: 5/12/2022 2:31:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -108,7 +108,7 @@ CREATE TABLE [dbo].[Cuentas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TiposCuentas]    Script Date: 5/12/2022 1:55:17 PM ******/
+/****** Object:  Table [dbo].[TiposCuentas]    Script Date: 5/12/2022 2:31:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -124,7 +124,7 @@ CREATE TABLE [dbo].[TiposCuentas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TiposOperaciones]    Script Date: 5/12/2022 1:55:17 PM ******/
+/****** Object:  Table [dbo].[TiposOperaciones]    Script Date: 5/12/2022 2:31:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -138,7 +138,7 @@ CREATE TABLE [dbo].[TiposOperaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/12/2022 1:55:17 PM ******/
+/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/12/2022 2:31:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -157,7 +157,7 @@ CREATE TABLE [dbo].[Transacciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Usuarios]    Script Date: 5/12/2022 1:55:17 PM ******/
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 5/12/2022 2:31:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -268,7 +268,7 @@ REFERENCES [dbo].[Usuarios] ([Id])
 GO
 ALTER TABLE [dbo].[Transacciones] CHECK CONSTRAINT [FK_Transacciones_Usuarios]
 GO
-/****** Object:  StoredProcedure [dbo].[TiposCuentas_Insertar]    Script Date: 5/12/2022 1:55:18 PM ******/
+/****** Object:  StoredProcedure [dbo].[TiposCuentas_Insertar]    Script Date: 5/12/2022 2:31:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -297,7 +297,7 @@ BEGIN
 	Select SCOPE_IDENTITY();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Transacciones_Actualizar]    Script Date: 5/12/2022 1:55:18 PM ******/
+/****** Object:  StoredProcedure [dbo].[Transacciones_Actualizar]    Script Date: 5/12/2022 2:31:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -340,7 +340,49 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Transacciones_Insertar]    Script Date: 5/12/2022 1:55:18 PM ******/
+/****** Object:  StoredProcedure [dbo].[Transacciones_Borrar]    Script Date: 5/12/2022 2:31:02 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[Transacciones_Borrar]
+	-- Add the parameters for the stored procedure here
+	@Id int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	Declare @Monto decimal(18,2);
+	Declare @CuentaId int;
+	Declare @TipoOperacionId int;
+
+	Select @Monto = Monto, @CuentaId = CuentaId, @TipoOperacionId = cat.TipoOperacionId
+	From Transacciones
+	inner join Categorias cat
+	on cat.id = Transacciones.CategoriaId
+	Where Transacciones.Id = @Id
+    
+	Declare @FactorMultiplicativo int = 1;
+
+	If(@TipoOperacionId = 2)
+		Set @FactorMultiplicativo = -1;
+	Set @Monto = @Monto * @FactorMultiplicativo;
+
+	Update Cuentas
+	Set Balance -= @Monto Where Id = @CuentaId;
+
+	Delete Transacciones Where Id = @Id;
+	
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Transacciones_Insertar]    Script Date: 5/12/2022 2:31:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
