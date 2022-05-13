@@ -67,7 +67,7 @@ namespace ManejoPresupuesto.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Editar(int id)
+        public async Task<IActionResult> Editar(int id, string urlRetorno = null)
         {
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
             var transaccion = await repositorioTransacciones.ObtenerPorId(id, usuarioId);
@@ -87,7 +87,7 @@ namespace ManejoPresupuesto.Controllers
             modelo.CuentaAnteriorId = transaccion.CuentaId;
             modelo.Categorias = await ObtenerCategorias(usuarioId, transaccion.TipoOperacionId);
             modelo.Cuentas = await ObtenerCuentas(usuarioId);
-
+            modelo.UrlRetorno = urlRetorno;
             return View(modelo);
              
         }
@@ -114,17 +114,20 @@ namespace ManejoPresupuesto.Controllers
                 transaccion.Monto *= -1;
             }
             await repositorioTransacciones.Actualizar(transaccion, modelo.MontoAnterior, modelo.CuentaAnteriorId);
+            if (string.IsNullOrEmpty(modelo.UrlRetorno)) return RedirectToAction("Index");
+            else return LocalRedirect(modelo.UrlRetorno);
 
-            return RedirectToAction("Index");
         }
         [HttpPost]
-        public async Task<IActionResult> Borrar(int id)
+        public async Task<IActionResult> Borrar(int id, string urlRetorno = null)
         {
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
             var transaccion = await repositorioTransacciones.ObtenerPorId(id, usuarioId);
             if (transaccion is null) return RedirectToAction("NoEncontrado", "Home");
 
             await repositorioTransacciones.Borrar(id);
+            if (string.IsNullOrEmpty(urlRetorno)) return RedirectToAction("Index");
+            else return LocalRedirect(urlRetorno);
             return RedirectToAction("Index");
         }
 
