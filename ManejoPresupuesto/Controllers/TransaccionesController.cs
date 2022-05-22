@@ -184,8 +184,42 @@ namespace ManejoPresupuesto.Controllers
                 FechaFin=fechaFin
             });
 
-            var nombreArchivo = $"Manejo Presupuesto - {fechaInicio.ToString("MMM yyy")}.xlsx";
+            var nombreArchivo = $"Manejo Presupuesto - {fechaInicio.ToString("MMM yyyy")}.xlsx";
             return GenerarExcel(nombreArchivo,transacciones);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExportarExcelPorAno(int ano)
+        {
+            var fechaInicio = new DateTime(ano, 1, 1);
+            var fechaFin = fechaInicio.AddYears(1).AddDays(-1);
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+
+            var transacciones = await repositorioTransacciones.ObtenerPorUsuarioId(new ParametroObtenerTransaccionesPorUsuario
+            {
+                UsuarioId = usuarioId,
+                FechaInicio = fechaInicio,
+                FechaFin = fechaFin
+            });
+
+            var nombreArchivo = $"Manejo Presupuesto - {fechaInicio.ToString("yyyy")}.xlsx";
+            return GenerarExcel(nombreArchivo, transacciones);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExportarExcelTodo()
+        {
+            var fechaInicio= DateTime.Today.AddYears(-100);
+            var fechaFin = DateTime.Today.AddYears(1000);
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+
+            var transacciones = await repositorioTransacciones.ObtenerPorUsuarioId(new ParametroObtenerTransaccionesPorUsuario
+            {
+                UsuarioId = usuarioId,
+                FechaInicio = fechaInicio,
+                FechaFin = fechaFin
+            });
+
+            var nombreArchivo = $"Manejo Presupuesto - {DateTime.Today.ToString("dd-mm-yyyy")}.xlsx";
+            return GenerarExcel(nombreArchivo, transacciones);
         }
 
         private FileResult GenerarExcel(string nombreArchivo, IEnumerable<Transaccion> transacciones)
