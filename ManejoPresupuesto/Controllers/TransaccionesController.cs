@@ -74,15 +74,16 @@ namespace ManejoPresupuesto.Controllers
             return View(modelo);
         }
        
-        public async IActionResult Semanal(int mes, int ano)
+        public async Task<IActionResult> Semanal(int mes, int ano)
         {
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
-            IEnumerable<ResultadoObtenerPorSemana> transaccionesPorSemana = await servicioReportes.ObtenerReporteSemanal(usuarioId, mes, ano, ViewBag);
-            var agrupado = transaccionesPorSemana.GroupBy(x => x.Semana).Select(x => new
-            ResultadoObtenerPorSemana()
+            IEnumerable<ResultadoObtenerPorSemana> transaccionesPorSemana = 
+                await servicioReportes.ObtenerReporteSemanal(usuarioId, mes, ano, ViewBag);
+            var agrupado = transaccionesPorSemana.GroupBy(x => x.Semana).Select(x => 
+            new ResultadoObtenerPorSemana()
             {
                 Semana = x.Key,
-                Ingresos = x.Where(x => x.TipoOperacionId == TipoOperacion.Ingreso).Select(x=>x.Monto).FirstOrDefault(),
+                Ingresos = x.Where(x => x.TipoOperacionId == TipoOperacion.Ingreso).Select(x => x.Monto).FirstOrDefault(),
                 Gastos = x.Where(x => x.TipoOperacionId == TipoOperacion.Gasto).Select(x => x.Monto).FirstOrDefault()
             }).ToList();
 
@@ -95,13 +96,13 @@ namespace ManejoPresupuesto.Controllers
             var fechaReferencia = new DateTime(ano, mes, 1);
             var diasDelMes = Enumerable.Range(1, fechaReferencia.AddMonths(1).AddDays(-1).Day);
 
-            var diasSegmentaso = diasDelMes.Chunk(7).ToList();
+            var diasSegmentados = diasDelMes.Chunk(7).ToList();
 
-            for(int i = 0; i < diasSegmentaso.Count(); i++)
+            for(int i = 0; i < diasSegmentados.Count(); i++)
             {
-                var semana = 1 + 1;
-                var fechaInicio = new DateTime(ano, mes, diasSegmentaso[i].First());
-                var fechaFin = new DateTime(ano, mes, diasSegmentaso[i].Last());
+                var semana = i + 1;
+                var fechaInicio = new DateTime(ano, mes, diasSegmentados[i].First());
+                var fechaFin = new DateTime(ano, mes, diasSegmentados[i].Last());
                 var grupoSemana = agrupado.FirstOrDefault(x => x.Semana == semana);
 
                 if(grupoSemana is null)
@@ -240,6 +241,7 @@ namespace ManejoPresupuesto.Controllers
             await repositorioTransacciones.Borrar(id);
             if (string.IsNullOrEmpty(urlRetorno)) return RedirectToAction("Index");
             else return LocalRedirect(urlRetorno);
+
             return RedirectToAction("Index");
         }
 
