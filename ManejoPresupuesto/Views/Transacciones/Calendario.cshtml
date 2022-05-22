@@ -15,18 +15,7 @@
 			const calendario = new FullCalendar.Calendar(calendarioE1, {
 				dayMaxEventRows: 3,
 				initialView: 'dayGridMonth',
-				events:[{
-					title: '2,500',
-					start: '2022-05-17',
-					end: '2022-05-17'
-				},
-				{
-					title: '1,500',
-					start: '2022-05-17',
-					end: '2022-05-17',
-					color: 'red'
-				},
-				]
+				events:'/transacciones/ObtenerTransaccionesCalendario'
 			});
 			calendario.render();
 		})
