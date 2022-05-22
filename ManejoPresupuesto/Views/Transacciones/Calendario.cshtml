@@ -14,7 +14,19 @@
 			const calendarioE1=document.getElementById('calendario');
 			const calendario = new FullCalendar.Calendar(calendarioE1, {
 				dayMaxEventRows: 3,
-				initialView: 'dayGridMonth'
+				initialView: 'dayGridMonth',
+				events:[{
+					title: '2,500',
+					start: '2022-05-17',
+					end: '2022-05-17'
+				},
+				{
+					title: '1,500',
+					start: '2022-05-17',
+					end: '2022-05-17',
+					color: 'red'
+				},
+				]
 			});
 			calendario.render();
 		})
