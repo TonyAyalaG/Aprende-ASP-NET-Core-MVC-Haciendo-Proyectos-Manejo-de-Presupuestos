@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ManejoPresupuesto]    Script Date: 5/12/2022 2:31:01 PM ******/
+/****** Object:  Database [ManejoPresupuesto]    Script Date: 23/05/2022 04:21:18 p. m. ******/
 
 ALTER DATABASE [ManejoPresupuesto] SET COMPATIBILITY_LEVEL = 150
 GO
@@ -75,7 +75,7 @@ ALTER DATABASE [ManejoPresupuesto] SET QUERY_STORE = OFF
 GO
 USE [ManejoPresupuesto]
 GO
-/****** Object:  Table [dbo].[Categorias]    Script Date: 5/12/2022 2:31:02 PM ******/
+/****** Object:  Table [dbo].[Categorias]    Script Date: 23/05/2022 04:21:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -91,7 +91,7 @@ CREATE TABLE [dbo].[Categorias](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cuentas]    Script Date: 5/12/2022 2:31:02 PM ******/
+/****** Object:  Table [dbo].[Cuentas]    Script Date: 23/05/2022 04:21:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -108,7 +108,7 @@ CREATE TABLE [dbo].[Cuentas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TiposCuentas]    Script Date: 5/12/2022 2:31:02 PM ******/
+/****** Object:  Table [dbo].[TiposCuentas]    Script Date: 23/05/2022 04:21:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -124,7 +124,7 @@ CREATE TABLE [dbo].[TiposCuentas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TiposOperaciones]    Script Date: 5/12/2022 2:31:02 PM ******/
+/****** Object:  Table [dbo].[TiposOperaciones]    Script Date: 23/05/2022 04:21:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -138,7 +138,7 @@ CREATE TABLE [dbo].[TiposOperaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Transacciones]    Script Date: 5/12/2022 2:31:02 PM ******/
+/****** Object:  Table [dbo].[Transacciones]    Script Date: 23/05/2022 04:21:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -157,7 +157,7 @@ CREATE TABLE [dbo].[Transacciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Usuarios]    Script Date: 5/12/2022 2:31:02 PM ******/
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 23/05/2022 04:21:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -185,15 +185,29 @@ INSERT [dbo].[Categorias] ([id], [Nombre], [TipoOperacionId], [UsuarioId]) VALUE
 GO
 INSERT [dbo].[Categorias] ([id], [Nombre], [TipoOperacionId], [UsuarioId]) VALUES (5, N'Mascotas', 2, 1)
 GO
+INSERT [dbo].[Categorias] ([id], [Nombre], [TipoOperacionId], [UsuarioId]) VALUES (6, N'Libros', 2, 6)
+GO
+INSERT [dbo].[Categorias] ([id], [Nombre], [TipoOperacionId], [UsuarioId]) VALUES (7, N'Salario', 1, 6)
+GO
+INSERT [dbo].[Categorias] ([id], [Nombre], [TipoOperacionId], [UsuarioId]) VALUES (8, N'Mesada', 1, 6)
+GO
+INSERT [dbo].[Categorias] ([id], [Nombre], [TipoOperacionId], [UsuarioId]) VALUES (9, N'Comida', 2, 6)
+GO
 SET IDENTITY_INSERT [dbo].[Categorias] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Cuentas] ON 
 GO
-INSERT [dbo].[Cuentas] ([Id], [Nombre], [TipoCuentaId], [Balance], [Descripcion]) VALUES (2, N'Tarjeta de Banco X', 3, CAST(4500.00 AS Decimal(18, 2)), N'Esta siempre la debo.')
+INSERT [dbo].[Cuentas] ([Id], [Nombre], [TipoCuentaId], [Balance], [Descripcion]) VALUES (2, N'Tarjeta de Banco', 3, CAST(4593.00 AS Decimal(18, 2)), N'Esta siempre la debo.')
 GO
-INSERT [dbo].[Cuentas] ([Id], [Nombre], [TipoCuentaId], [Balance], [Descripcion]) VALUES (3, N'Efectivo 2', 2, CAST(2521.00 AS Decimal(18, 2)), N'Nuevo Comentario')
+INSERT [dbo].[Cuentas] ([Id], [Nombre], [TipoCuentaId], [Balance], [Descripcion]) VALUES (3, N'Efectivo', 2, CAST(3682.00 AS Decimal(18, 2)), N'Nuevo Comentario')
 GO
 INSERT [dbo].[Cuentas] ([Id], [Nombre], [TipoCuentaId], [Balance], [Descripcion]) VALUES (4, N'Prestamo del carro', 4, CAST(-5000.00 AS Decimal(18, 2)), NULL)
+GO
+INSERT [dbo].[Cuentas] ([Id], [Nombre], [TipoCuentaId], [Balance], [Descripcion]) VALUES (5, N'Efectivo', 8, CAST(2000.00 AS Decimal(18, 2)), NULL)
+GO
+INSERT [dbo].[Cuentas] ([Id], [Nombre], [TipoCuentaId], [Balance], [Descripcion]) VALUES (6, N'Cuentas de Banco', 9, CAST(0.00 AS Decimal(18, 2)), NULL)
+GO
+INSERT [dbo].[Cuentas] ([Id], [Nombre], [TipoCuentaId], [Balance], [Descripcion]) VALUES (7, N'Tarjetas', 10, CAST(0.00 AS Decimal(18, 2)), NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Cuentas] OFF
 GO
@@ -206,6 +220,12 @@ GO
 INSERT [dbo].[TiposCuentas] ([Id], [Nombre], [UsuarioId], [Orden]) VALUES (3, N'Tarjetas', 1, 5)
 GO
 INSERT [dbo].[TiposCuentas] ([Id], [Nombre], [UsuarioId], [Orden]) VALUES (4, N'Prestamos', 1, 4)
+GO
+INSERT [dbo].[TiposCuentas] ([Id], [Nombre], [UsuarioId], [Orden]) VALUES (8, N'Efectivo', 6, 1)
+GO
+INSERT [dbo].[TiposCuentas] ([Id], [Nombre], [UsuarioId], [Orden]) VALUES (9, N'Cuentas de Banco', 6, 2)
+GO
+INSERT [dbo].[TiposCuentas] ([Id], [Nombre], [UsuarioId], [Orden]) VALUES (10, N'Tarjetas', 6, 3)
 GO
 SET IDENTITY_INSERT [dbo].[TiposCuentas] OFF
 GO
@@ -221,15 +241,43 @@ SET IDENTITY_INSERT [dbo].[Transacciones] ON
 GO
 INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (1, 1, CAST(N'2022-08-12T00:00:00.000' AS DateTime), CAST(12.00 AS Decimal(18, 2)), N'Ejemplo Modificado SP 4', 3, 2)
 GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (2, 1, CAST(N'2022-05-12T00:00:00.000' AS DateTime), CAST(10.00 AS Decimal(18, 2)), N'Ejemplo2.', 3, 2)
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (2, 1, CAST(N'2022-05-12T00:00:00.000' AS DateTime), CAST(101.00 AS Decimal(18, 2)), N'Ejemplo2.', 3, 2)
 GO
-INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (3, 1, CAST(N'2022-05-12T00:00:00.000' AS DateTime), CAST(500.00 AS Decimal(18, 2)), NULL, 2, 1)
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (3, 1, CAST(N'2022-05-12T00:00:00.000' AS DateTime), CAST(7.00 AS Decimal(18, 2)), NULL, 2, 1)
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (5, 1, CAST(N'2022-05-13T00:00:00.000' AS DateTime), CAST(200.00 AS Decimal(18, 2)), NULL, 2, 5)
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (6, 1, CAST(N'2022-05-13T00:00:00.000' AS DateTime), CAST(100.00 AS Decimal(18, 2)), NULL, 2, 2)
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (7, 1, CAST(N'2022-05-13T00:00:00.000' AS DateTime), CAST(30.00 AS Decimal(18, 2)), NULL, 3, 5)
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (8, 1, CAST(N'2022-05-21T00:00:00.000' AS DateTime), CAST(100.00 AS Decimal(18, 2)), NULL, 3, 2)
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (9, 1, CAST(N'2022-05-03T00:00:00.000' AS DateTime), CAST(100.00 AS Decimal(18, 2)), NULL, 3, 4)
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (10, 1, CAST(N'2022-05-09T00:00:00.000' AS DateTime), CAST(100.00 AS Decimal(18, 2)), NULL, 2, 3)
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (11, 1, CAST(N'2022-05-25T00:00:00.000' AS DateTime), CAST(100.00 AS Decimal(18, 2)), NULL, 3, 3)
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (12, 1, CAST(N'2022-05-25T00:00:00.000' AS DateTime), CAST(1000.00 AS Decimal(18, 2)), NULL, 3, 2)
+GO
+INSERT [dbo].[Transacciones] ([Id], [UsuarioId], [FechaTransaccion], [Monto], [Nota], [CuentaId], [CategoriaId]) VALUES (13, 6, CAST(N'2022-05-23T00:00:00.000' AS DateTime), CAST(2000.00 AS Decimal(18, 2)), NULL, 5, 7)
 GO
 SET IDENTITY_INSERT [dbo].[Transacciones] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Usuarios] ON 
 GO
 INSERT [dbo].[Usuarios] ([Id], [Email], [EmailNormalizado], [PasswordHash]) VALUES (1, N'prueba@abc.d', N'prueba@abc.d', N'abc')
+GO
+INSERT [dbo].[Usuarios] ([Id], [Email], [EmailNormalizado], [PasswordHash]) VALUES (2, N'a@b.com', N'A@B.COM', N'AQAAAAEAACcQAAAAELgYquZI9mEdC+MPRBkss+IL2PCjTw6Olo9WsIjRFhNYvDVt8TtxDQtkOIfzD1BDqA==')
+GO
+INSERT [dbo].[Usuarios] ([Id], [Email], [EmailNormalizado], [PasswordHash]) VALUES (3, N'a2@b.com', N'A2@B.COM', N'AQAAAAEAACcQAAAAEBoGw9XwBu+R5gm5aZ9o5CkcChGvBfdblQeAX3vq/ApOJrKNaDYY+s3bX7RJuaIi9Q==')
+GO
+INSERT [dbo].[Usuarios] ([Id], [Email], [EmailNormalizado], [PasswordHash]) VALUES (4, N'a3@b.com', N'A3@B.COM', N'AQAAAAEAACcQAAAAEDxgarUup3ky9jYB+ZxaacW29rf74Sr0bUbcIpW5Xj1f40Cf1C+Io+fTHjXzRfqp5A==')
+GO
+INSERT [dbo].[Usuarios] ([Id], [Email], [EmailNormalizado], [PasswordHash]) VALUES (5, N'a4@b.com', N'A4@B.COM', N'AQAAAAEAACcQAAAAENtUNnBAELxmKdxMNvXz6pWYf9qJI9rKYzLoSjP7ttiWnE9oE/SPldshwBYk7EyoLA==')
+GO
+INSERT [dbo].[Usuarios] ([Id], [Email], [EmailNormalizado], [PasswordHash]) VALUES (6, N'a5@b.com', N'A5@B.COM', N'AQAAAAEAACcQAAAAENmaQKZuOF54QXmfn+cB7MeSltVfHej2HIKFzfcBmbR/vBE9bQNYD7LTIIcT4P0B+w==')
 GO
 SET IDENTITY_INSERT [dbo].[Usuarios] OFF
 GO
@@ -268,7 +316,47 @@ REFERENCES [dbo].[Usuarios] ([Id])
 GO
 ALTER TABLE [dbo].[Transacciones] CHECK CONSTRAINT [FK_Transacciones_Usuarios]
 GO
-/****** Object:  StoredProcedure [dbo].[TiposCuentas_Insertar]    Script Date: 5/12/2022 2:31:02 PM ******/
+/****** Object:  StoredProcedure [dbo].[CrearDatosDeUsuarioNuevo]    Script Date: 23/05/2022 04:21:19 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[CrearDatosDeUsuarioNuevo]
+	@UsuarioId int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	Declare @Efectivo  nvarchar(50) ='Efectivo';
+	Declare @CuentasDeBancos  nvarchar(50) ='Cuentas de Banco';
+	Declare @Tarjetas  nvarchar(50) ='Tarjetas';
+
+	Insert into TiposCuentas (Nombre, UsuarioId, Orden)
+	values (@Efectivo, @UsuarioId, 1),
+	 (@CuentasDeBancos , @UsuarioId, 2),
+	 (@Tarjetas, @UsuarioId, 3);
+
+	Insert Into Cuentas (Nombre, Balance, TipoCuentaId)
+	Select Nombre, 0, Id
+	from TiposCuentas
+	Where UsuarioId = @UsuarioId;
+
+	Insert into Categorias(Nombre, TipoOperacionId, UsuarioId)
+	values
+	('Libros', 2,@UsuarioId),
+	('Salario', 1,@UsuarioId),
+	('Mesada', 1,@UsuarioId),
+	('Comida', 2,@UsuarioId)
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[TiposCuentas_Insertar]    Script Date: 23/05/2022 04:21:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -297,7 +385,7 @@ BEGIN
 	Select SCOPE_IDENTITY();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Transacciones_Actualizar]    Script Date: 5/12/2022 2:31:02 PM ******/
+/****** Object:  StoredProcedure [dbo].[Transacciones_Actualizar]    Script Date: 23/05/2022 04:21:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -340,7 +428,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Transacciones_Borrar]    Script Date: 5/12/2022 2:31:02 PM ******/
+/****** Object:  StoredProcedure [dbo].[Transacciones_Borrar]    Script Date: 23/05/2022 04:21:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -382,7 +470,7 @@ BEGIN
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Transacciones_Insertar]    Script Date: 5/12/2022 2:31:02 PM ******/
+/****** Object:  StoredProcedure [dbo].[Transacciones_Insertar]    Script Date: 23/05/2022 04:21:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

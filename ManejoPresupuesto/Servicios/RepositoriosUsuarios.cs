@@ -22,10 +22,12 @@ namespace ManejoPresupuesto.Servicios
         {
             //usuario.EmailNormalizado = usuario.Emal.ToUpper();
             using var connection = new SqlConnection(connectionString);
-            var id = await connection.QuerySingleAsync<int>(@"Insert into Usuarios(Email, EmailNormalizado, PasswordHash)
+            var UsuarioId = await connection.QuerySingleAsync<int>(@"Insert into Usuarios(Email, EmailNormalizado, PasswordHash)
                                                     Values(@Email, @EmailNormalizado, @PasswordHash); Select Scope_IDentity();", usuario);
 
-            return id;
+            await connection.ExecuteAsync("CrearDatosDeUsuarioNuevo", new { UsuarioId }, commandType: System.Data.CommandType.StoredProcedure);
+
+            return UsuarioId;
         }
 
         public async Task<Usuario> BuscarUsuarioPorEmail(string emailNormalizado)
