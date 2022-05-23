@@ -23,7 +23,7 @@ namespace ManejoPresupuesto.Servicios
             //usuario.EmailNormalizado = usuario.Emal.ToUpper();
             using var connection = new SqlConnection(connectionString);
             var id = await connection.QuerySingleAsync<int>(@"Insert into Usuarios(Email, EmailNormalizado, PasswordHash)
-                                                    Values(@Email, @EmailNormalizado, @PasswordHash)", usuario);
+                                                    Values(@Email, @EmailNormalizado, @PasswordHash); Select Scope_IDentity();", usuario);
 
             return id;
         }
@@ -31,7 +31,7 @@ namespace ManejoPresupuesto.Servicios
         public async Task<Usuario> BuscarUsuarioPorEmail(string emailNormalizado)
         {
             using var connection = new SqlConnection(connectionString);
-            return await connection.QuerySingleAsync<Usuario>("Select * From Usuarios Where EmailNormalizado = @emailNormalizado", new { emailNormalizado });
+            return await connection.QuerySingleOrDefaultAsync<Usuario>("SELECT * FROM Usuarios Where EmailNormalizado = @emailNormalizado", new { emailNormalizado });
         }
     }
 }
