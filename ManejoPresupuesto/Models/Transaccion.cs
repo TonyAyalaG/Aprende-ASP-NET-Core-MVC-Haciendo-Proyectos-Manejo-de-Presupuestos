@@ -11,7 +11,7 @@ namespace ManejoPresupuesto.Models
         [DataType(DataType.Date)]
         public DateTime FechaTransaccion { get; set; } = DateTime.Today;// DateTime.Parse(DateTime.Now.ToString("g")); //DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
         public decimal Monto { get; set; }
-        [Range(0, maximum: int.MaxValue, ErrorMessage ="Debe seleccionar una categoria")]
+        [Range(1, maximum: int.MaxValue, ErrorMessage ="Debe seleccionar una categoria")]
         [Display(Name = "Categoria")]
         public int CategoriaId { get; set; }
         [StringLength(maximumLength:1000, ErrorMessage ="La nota no puede pasar de {1} caracteres")]
