@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManejoPresupuesto.Controllers
 {
-    public class CategoriasController: Controller
+    public class CategoriasController : Controller
     {
         private readonly IRepositorioCategorias repositorioCategorias;
         private readonly IServicioUsuarios servicioUsuarios;
 
-        public CategoriasController(IRepositorioCategorias  repositorioCategorias, IServicioUsuarios servicioUsuarios)
+        public CategoriasController(IRepositorioCategorias repositorioCategorias, IServicioUsuarios servicioUsuarios)
         {
             this.repositorioCategorias = repositorioCategorias;
             this.servicioUsuarios = servicioUsuarios;
@@ -31,14 +31,23 @@ namespace ManejoPresupuesto.Controllers
             await repositorioCategorias.Crear(categoria);
             return RedirectToAction("Index");
 
-            
+
         }
 
         public async Task<IActionResult> Index(PaginacionViewModel paginacionViewModel)
         {
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
             var categorias = await repositorioCategorias.Obtener(usuarioId, paginacionViewModel);
-            return View(categorias);
+            var totalCategorias = await repositorioCategorias.Contar(usuarioId);
+            var respuestaVM = new PaginacionRespuesta<Categoria>
+            {
+                Elementos = categorias,
+                Pagina = paginacionViewModel.Pagina,
+                RecordsPorPagina = paginacionViewModel.RecordsPorPagina,
+                CantidadTotalRecords = totalCategorias,
+                BaseURL = "/categorias"
+            };
+            return View(respuestaVM);
         }
 
         public async Task<IActionResult> Editar(int id)
