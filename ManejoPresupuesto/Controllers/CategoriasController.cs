@@ -34,10 +34,10 @@ namespace ManejoPresupuesto.Controllers
             
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(PaginacionViewModel paginacionViewModel)
         {
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
-            var categorias = await repositorioCategorias.Obtener(usuarioId);
+            var categorias = await repositorioCategorias.Obtener(usuarioId, paginacionViewModel);
             return View(categorias);
         }
 
